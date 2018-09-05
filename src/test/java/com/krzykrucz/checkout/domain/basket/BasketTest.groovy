@@ -2,6 +2,7 @@ package com.krzykrucz.checkout.domain.basket
 
 import com.krzykrucz.checkout.domain.Price
 import com.krzykrucz.checkout.domain.discount.Discount
+import com.krzykrucz.checkout.domain.owner.Customer
 import com.krzykrucz.checkout.domain.product.Product
 import org.joda.money.Money
 import spock.lang.Specification
@@ -63,13 +64,27 @@ class BasketTest extends Specification {
         basket.state == OPEN
     }
 
-    def "should close basket"() {
+    def "should not close basket with anonymous owner"() {
         given:
         def basket = new Basket()
         def product = Product.newUndiscountableProduct('item', USD_10)
         basket.addItem(product, 2)
 
         when:
+        basket.close()
+
+        then:
+        thrown(IllegalStateException)
+    }
+
+    def "should close basket with a customer as an owner"() {
+        given:
+        def basket = new Basket()
+        def product = Product.newUndiscountableProduct('item', USD_10)
+        basket.addItem(product, 2)
+
+        when:
+        basket.unanonymize(new Customer())
         def total = basket.close()
 
         then:

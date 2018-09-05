@@ -1,9 +1,13 @@
 package com.krzykrucz.checkout.domain.basket;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.krzykrucz.checkout.domain.owner.AnonymousOwner;
+import com.krzykrucz.checkout.domain.owner.BasketOwner;
 import com.krzykrucz.checkout.domain.Price;
 import com.krzykrucz.checkout.domain.discount.Discount;
+import com.krzykrucz.checkout.domain.owner.Customer;
 import com.krzykrucz.checkout.domain.product.Product;
 import com.krzykrucz.checkout.domain.product.ProductId;
 import com.krzykrucz.checkout.domain.product.ProductInfo;
@@ -15,6 +19,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+
 @Getter
 @EqualsAndHashCode(of = "basketId")
 public class Basket {
@@ -22,6 +29,8 @@ public class Basket {
     private static final Clock LOCAL_TIME_CLOCK = Clock.systemDefaultZone();
 
     private final BasketId basketId;
+
+    private BasketOwner basketOwner;
 
     private final Map<ProductId, BasketItem> items;
 
@@ -31,12 +40,17 @@ public class Basket {
 
     private Discount appliedDiscount;
 
-    public Basket() {
+    public Basket(BasketOwner details) {
         basketId = BasketId.createNew();
         total = Price.zero();
         items = Maps.newHashMap();
         state = BasketState.OPEN;
         appliedDiscount = Discount.zero();
+        basketOwner = details;
+    }
+
+    public Basket() {
+        this(new AnonymousOwner());
     }
 
     public void addItem(Product product, int quantity) {
@@ -54,8 +68,14 @@ public class Basket {
     }
 
     public Price close() {
+        checkState(basketOwner.isCustomer(), "Non-customer cannot close a basket");
         this.state = BasketState.CLOSED;
         return total;
+    }
+
+    public void unanonymize(Customer customer) {
+        checkState(!basketOwner.isCustomer(), "Able to unanonymize a basket with an anonymous owner only");
+        this.basketOwner = customer;
     }
 
     public Set<BasketItem> getItems() {
