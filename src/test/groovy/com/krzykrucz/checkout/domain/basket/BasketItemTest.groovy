@@ -10,7 +10,7 @@ class BasketItemTest extends Specification {
 
     def "should increase quantity"() {
         given:
-        def productInfo = GroovyMock(ProductInfo)
+        def productInfo = Stub(ProductInfo)
         productInfo.price >> TEN_DOLLARS
         def item = new BasketItem(productInfo, 2)
 
@@ -25,7 +25,7 @@ class BasketItemTest extends Specification {
 
     def "should not create basket item with invalid quantity"() {
         when :
-        new BasketItem(GroovyMock(ProductInfo), 0)
+        new BasketItem(Stub(ProductInfo), 0)
 
         then:
         thrown IllegalArgumentException
