@@ -3,12 +3,14 @@ package com.krzykrucz.checkout.domain;
 import com.krzykrucz.checkout.domain.discount.Discount;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.joda.money.Money;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.joda.money.CurrencyUnit.USD;
 
 @EqualsAndHashCode
+@ToString
 public class Price {
 
     private static final Price ZERO = new Price(Money.zero(USD));

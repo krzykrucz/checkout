@@ -1,17 +1,27 @@
 package com.krzykrucz.checkout.domain.basket
 
 import com.krzykrucz.checkout.domain.Price
+import com.krzykrucz.checkout.domain.discount.NoneDiscountPolicy
+import com.krzykrucz.checkout.domain.product.ProductId
 import com.krzykrucz.checkout.domain.product.ProductInfo
 import spock.lang.Specification
+
+import static java.time.LocalDateTime.now
 
 class BasketItemTest extends Specification {
 
     final static TEN_DOLLARS = Price.newDollarPrice(10)
 
+    // TODO
     def "should increase quantity"() {
         given:
-        def productInfo = Stub(ProductInfo)
-        productInfo.price >> TEN_DOLLARS
+        def productInfo = new ProductInfo(
+                ProductId.createNew(),
+                'product',
+                TEN_DOLLARS,
+                now(),
+                NoneDiscountPolicy.instance())
+
         def item = new BasketItem(productInfo, 2)
 
         when:
@@ -24,11 +34,10 @@ class BasketItemTest extends Specification {
     }
 
     def "should not create basket item with invalid quantity"() {
-        when :
-        new BasketItem(Stub(ProductInfo), 0)
+        when: "basket item with quantity zero is created"
 
-        then:
-        thrown IllegalArgumentException
+        then: "exception is thrown"
+        // TODO
     }
 
 }

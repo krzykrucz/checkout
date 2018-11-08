@@ -30,20 +30,15 @@ class BasketTest extends Specification {
         basket.appliedDiscount == Discount.zero()
     }
 
+    // TODO
     def "should add first product without discount"() {
-        given:
-        def basket = new Basket()
-        def product = Product.newUndiscountableProduct('item', USD_10)
+        given: "a basket"
 
-        when:
-        basket.addItem(product, 1)
+        when: "product with quantity 1 is added to the basket"
 
-        then:
-        basket.total == USD_10
-        basket.items*.quantity == [1]
-        basket.items*.productInfo.productId == [product.productId]
-        basket.items*.productInfo.name == ['item']
-        basket.state == OPEN
+        then: "product is in the open basket"
+
+        and: "total is calculated properly"
     }
 
     def "should add second time same product without discount and update it"() {
@@ -76,7 +71,6 @@ class BasketTest extends Specification {
         basket.state == CLOSED
         total == basket.total
     }
-
 
     def "should apply best discount"() {
         given:

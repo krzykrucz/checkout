@@ -14,16 +14,11 @@ class BasketAPITest extends APITest {
 
 
     def "should open basket"() {
-        setup:
-        1 * basketApplicationService.openBasket() >> new OpenBasketResult(SAMPLE_BASKET_ID)
+        setup: "basket service to result successfully"
 
-        when:
-        def response = post '/basket/open'
-        def id = response.json.basketId
+        when: "request to open basket is sent"
 
-        then:
-        response.status == HttpStatus.OK
-        id == SAMPLE_BASKET_ID.toString()
+        then: "response is successful"
 
     }
 

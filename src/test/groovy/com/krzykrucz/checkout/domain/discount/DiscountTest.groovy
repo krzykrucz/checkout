@@ -11,25 +11,15 @@ import static org.joda.money.CurrencyUnit.USD
 
 class DiscountTest extends Specification {
 
+    // TODO
     @Unroll
     def "should create discount from price change"() {
-        given:
-        def price1 = Price.newDollarPrice oldPrice
-        def price2 = Price.newDollarPrice newPrice
+        given: "different prices"
 
-        when:
-        def discount = Discount.builder()
-                .oldPrice(price1)
-                .newPrice(price2)
-                .build()
+        when: "discount is created from old and new price"
 
-        then:
-        discount.value.amount == discountValue
+        then: "discount value should be calculated"
 
-        where:
-        oldPrice | newPrice || discountValue
-        30       | 20       || 10
-        20       | 30       || 0
     }
 
     @Unroll

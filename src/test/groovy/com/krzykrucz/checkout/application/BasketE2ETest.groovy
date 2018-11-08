@@ -179,13 +179,14 @@ class BasketE2ETest extends E2ETest {
         product.updatePrice(Price.newDollarPrice(10))
         productRepository.save product
 
-        when:
-        def closeRequest = [basketId: basketId]
-        def closeResponse = post '/basket/close', closeRequest
+        when: "basket is requested to be closed"
+        // TODO
 
-        then:
-        closeResponse.status == HttpStatus.BAD_REQUEST
-        closeResponse.json.errorMessage ==~ 'Basket contains non-up-to-date product:.*'
+        then: "responds with 400"
+        // TODO
+
+        and: "error message starts with 'Basket contains non-up-to-date product'"
+        // TODO
     }
 
     def "validation should fail when closing basket"() {
