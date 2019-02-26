@@ -4,6 +4,7 @@ import com.krzykrucz.checkout.domain.Price
 import com.krzykrucz.checkout.domain.product.ProductInfo
 import spock.lang.Specification
 
+// TODO remove
 class BasketItemTest extends Specification {
 
     final static TEN_DOLLARS = Price.newDollarPrice(10)

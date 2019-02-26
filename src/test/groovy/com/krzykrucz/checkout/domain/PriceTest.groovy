@@ -7,6 +7,7 @@ import spock.lang.Unroll
 
 import static org.joda.money.CurrencyUnit.USD
 
+// TODO remove
 class PriceTest extends Specification {
 
     def "should add prices"() {

@@ -12,6 +12,7 @@ import spock.lang.Unroll
 
 import java.time.LocalDateTime
 
+// TODO remove
 class QuantityDiscountPolicyTest extends Specification {
 
     final static PRODUCT_ID_1 = ProductId.createNew()

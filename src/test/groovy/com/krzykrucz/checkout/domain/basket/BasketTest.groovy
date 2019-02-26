@@ -10,6 +10,7 @@ import static BasketState.CLOSED
 import static BasketState.OPEN
 import static org.joda.money.CurrencyUnit.USD
 
+// TODO add edge cases, checking input validity or domain invariants
 class BasketTest extends Specification {
 
     final static USD_10 = new Price(Money.of(USD, 10))
